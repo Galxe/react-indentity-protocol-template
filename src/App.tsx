@@ -15,7 +15,7 @@ function App() {
     await prepare()
     const { User } = sdk.user
     const u = new User()
-    const identitySlice = u.createNewIdentitySlice('passport')
+    const identitySlice = u.createNewIdentitySlice('galxe')
     const identityCommitment = User.computeIdentityCommitment(identitySlice)
     setIdentityCommitment(identityCommitment.toString())
   }

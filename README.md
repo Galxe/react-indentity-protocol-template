@@ -1,54 +1,60 @@
-# React + TypeScript + Vite + Galxe Identity Protocol
+# React + TypeScript + Vite + Galxe Identity Protocol Starter
+This template provides a minimal setup to get Galxe Identity Protocol working with  React, Vite, and TypeScript. It’s designed to help developers quickly kickstart projects that integrate Galxe’s identity solutions with a modern, performant frontend stack. 
 
-This template provides a minimal setup to get React working in Vite with Galxe Identity Protocol. 
+## Installation
+To set up your project, follow these steps:
+1. **Create a new Vite project with the React template:**
+```bash
+npm create vite@latest my-app -- --template react
+```
+This command sets up a new React project using Vite as the build tool, preconfigured with TypeScript support.
 
-Currently, two official plugins are available:
+2. **Install the Galxe Identity Protocol SDK:**
+```bash
+npm i @galxe-identity-protocol/sdk -S
+```
+This command installs the Galxe Identity Protocol SDK as a dependency, enabling interaction with Galxe’s identity features in your application.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+3. **Add Node polyfills for browser compatibility:**
 
-## Expanding the ESLint configuration
+```bash
+npm add -D vite-plugin-node-polyfills
+```
+## Configuration
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+To ensure compatibility with the Galxe Identity Protocol SDK, you need to configure Vite to handle Node.js polyfills. Update your vite.config.js file as follows:
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
+```javascript
+// vite.config.js
+import { defineConfig } from 'vite'
+import { nodePolyfills } from 'vite-plugin-node-polyfills'
+
+export default defineConfig({
+  // other options
+  plugins: [nodePolyfills()]
 })
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+## Integrating the Galxe Identity Protocol
+To use the Galxe Identity Protocol in your React application, you can start by importing the SDK. Here’s a basic example:
+1. **Import the SDK:**
+```javascript
+import * as sdk from '@galxe-identity-protocol/sdk'
 ```
+2. **Interact with the Protocol:**
+```javascript
+const { prepare } = sdk.babyzk
+await prepare()
+const { User } = sdk.user
+const u = new User()
+const identitySlice = u.createNewIdentitySlice('galxe')
+const identityCommitment = User.computeIdentityCommitment(identitySlice)
+```
+
+
+## Resources
+
+- [Galxe Identity Protocol](https://www.galxe.com/identity)
+
+
+
